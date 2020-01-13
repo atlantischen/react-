@@ -1,24 +1,48 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button } from "antd";
-import './index.less'
-import logo from './img/logo.png'
+import axios from "axios";
+import { Form, Icon, Input, Button, message } from "antd";
+import "./index.less";
+import logo from "./img/logo.png";
 
 @Form.create()
 class Login extends Component {
-   validator=(rule,value,callback)=>{
+  validator = (rule, value, callback) => {
     const name = rule.field === "username" ? "用户名" : "密码";
-    if(!value){
-      callback("请输入" + name)
-    }else if(value.length<4){
+    if (!value) {
+      callback("请输入" + name);
+    } else if (value.length < 4) {
       callback(name + "长度至少大于4位");
-    }else if(value.length>13){
-      callback(name + "长度至少小于13位")
-    }else if(!/^\w+$/.test(value)){
+    } else if (value.length > 13) {
+      callback(name + "长度至少小于13位");
+    } else if (!/^\w+$/.test(value)) {
       callback(name + "只能包含英文、数字和下划线");
-    }else{
+    } else {
       callback();
     }
-  }
+  };
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { username, password } = values;
+        axios
+          .post("/api/login", { username, password })
+          .then(res => {
+            console.log(res.data);
+            if (res.data.status === 0) {
+              this.props.history.push("/");
+            } else {
+              message.error(res.data.msg);
+              this.props.form.resetFields(["password"]);
+            }
+          })
+          .catch(error => {
+            message.error('网络错误');
+            this.props.form.resetFields(["password"]);
+          });
+      }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -34,7 +58,7 @@ class Login extends Component {
               {getFieldDecorator("username", {
                 rules: [
                   // { required: true, message: "Please input your username!" }
-                  {validator:this.validator}
+                  { validator: this.validator }
                 ]
               })(
                 <Input
@@ -49,7 +73,7 @@ class Login extends Component {
               {getFieldDecorator("password", {
                 rules: [
                   // { required: true, message: "Please input your Password!" }
-                  {validator:this.validator}
+                  { validator: this.validator }
                 ]
               })(
                 <Input

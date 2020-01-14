@@ -1,0 +1,46 @@
+.header-main {
+  height: 80px;
+}
+.header-main .header-top {
+  height: 50px;
+  line-height: 50px;
+  text-align: right;
+  padding-right: 10px;
+  border-bottom: 1px solid #1DA57A;
+}
+.header-main .header-top .header-main-lang {
+  margin: 0 10px;
+}
+.header-main .header-bottom {
+  height: 30px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  background-color: #fff;
+}
+.header-main .header-bottom .header-main-left {
+  position: relative;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+.header-main .header-bottom .header-main-left::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -40px;
+  transform: translateX(-50%);
+  border-top: 20px solid #fff;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+}
+.header-main .header-bottom .header-main-right {
+  text-align: right;
+  flex: 2;
+}
+.header-main .item {
+  height: 20px;
+}

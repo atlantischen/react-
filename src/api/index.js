@@ -9,3 +9,10 @@ export const reqLogin = (username,password)=>{
     }
   })
 }
+// 获取分类列表
+export const getCategoryList =()=>{
+  return axiosInstance ({
+    url:'/category/get',
+    method:'GET'
+  })
+}

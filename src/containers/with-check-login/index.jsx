@@ -17,7 +17,7 @@ export default function withCheckLogin(WrappedComponent) {
             return <Redirect to='/' />
           }
         }else{
-          if(pathname === '/'){
+          if(pathname !== '/login'){
             return <Redirect to='/login' />
           }
         }

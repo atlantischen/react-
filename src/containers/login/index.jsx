@@ -7,6 +7,7 @@ import logo from "./img/logo.png";
 import "./index.less";
 
 // 使用高阶组件获取form属性
+// @withCheckLogin
 @withCheckLogin
 @connect(null, { saveUserAsync })
 @Form.create()

@@ -1,18 +1,35 @@
-import axiosInstance  from './request'
-export const reqLogin = (username,password)=>{
-  return axiosInstance ({
-    url:'/login',
-    method:'POST',
-    data:{
+/**
+ * 封装请求功能函数
+ */
+import axiosInstance from './request';
+
+// 请求登录
+export const reqLogin = (username, password) => {
+  return axiosInstance({
+    url: '/login',
+    method: 'POST',
+    data: {
       username,
       password
     }
-  })
+  });
+};
+
+// 请求获取分类数据
+export const reqGetCategoryList = () => {
+  return axiosInstance({
+    url: '/category/get',
+    method: 'GET'
+  });
 }
-// 获取分类列表
-export const getCategoryList =()=>{
-  return axiosInstance ({
-    url:'/category/get',
-    method:'GET'
-  })
-}
+
+// 请求添加分类数据
+export const reqAddCategory = (categoryName) => {
+  return axiosInstance({
+    url: '/category/add',
+    method: 'POST',
+    data: {
+      categoryName
+    }
+  });
+};

@@ -33,3 +33,24 @@ export const reqAddCategory = (categoryName) => {
     }
   });
 };
+// 编辑分类
+export const reqUpdateCategory = (categoryId,categoryName) => {
+  return axiosInstance({
+    url: '/category/update',
+    method: 'POST',
+    data: {
+      categoryId,
+      categoryName
+    }
+  });
+};
+// 删除分类
+export const reqDeleteCategory = (categoryId) => {
+  return axiosInstance({
+    url: '/category/delete',
+    method: 'POST',
+    data: {
+      categoryId
+    }
+  });
+};

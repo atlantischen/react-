@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
-import { Card, Button, Icon, Table, Modal, message } from 'antd';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Card, Button, Icon, Table, Modal, message } from "antd";
+import { connect } from "react-redux";
 
-import AddCategoryForm from './add-category-form';
-import { getCategoryListAsync, addCategoryAsync } from '$redux/actions';
+import AddCategoryForm from "./add-category-form";
+import {
+  getCategoryListAsync,
+  addCategoryAsync,
+  updateCategoryAsync
+} from "$redux/actions";
 
 @connect(state => ({ categories: state.categories }), {
   getCategoryListAsync,
-  addCategoryAsync
+  addCategoryAsync,
+  updateCategoryAsync
 })
 class Category extends Component {
   state = {
-    isShowAddCategory: false
+    isShowAddCategory: false,
+    category: {}
   };
 
   componentDidMount() {
@@ -20,17 +26,20 @@ class Category extends Component {
 
   columns = [
     {
-      title: '品类名称',
-      dataIndex: 'name'
+      title: "品类名称",
+      dataIndex: "name"
     },
     {
-      title: '操作',
-      dataIndex: 'operation',
-      render() {
+      title: "操作",
+      // dataIndex: "operation",
+      render: category => {
+        // console.log(category);
         return (
           <div>
-            <Button type='link'>修改分类</Button>
-            <Button type='link'>删除分类</Button>
+            <Button type="link" onClick={this.showUpateCategory(category)}>
+              修改分类
+            </Button>
+            <Button type="link">删除分类</Button>
           </div>
         );
       }
@@ -40,32 +49,44 @@ class Category extends Component {
   /**
    * 添加分类
    */
-  addCategory = () => {
+  setCategory = () => {
     /*
       1. 校验表单
       2. 收集数据
         validateFields
-      3. 发送请求，更新后端数据
+      3. 发送请求，更新后 端数据
       4. 请求成功，更新前端数据
     */
 
     const { validateFields, resetFields } = this.addCategoryForm.props.form;
-
+    const {
+      category: { name, _id }
+    } = this.state;
+    console.log(_id);
     validateFields((err, values) => {
       if (!err) {
         const { categoryName } = values;
         // 3. 发送请求，更新后端数据
-        this.props
-          .addCategoryAsync(categoryName)
+        // 添加或者修改分类
+        let promise = null;
+        if (name) {
+          // 修改
+          promise= this.props.updateCategoryAsync(_id,categoryName)
+        } else {
+          // 添加
+          promise= this.props.addCategoryAsync(categoryName);
+        }
+        promise
           .then(() => {
             // 提示添加成功~
-            message.success('添加分类成功');
+            message.success(`${name ? "修改" : "添加"}分类成功`);
             // 清空表单数据
             resetFields();
             // 隐藏对话框
             this.hiddenAddCategory();
           })
           .catch(err => {
+            console.log(1213);
             message.error(err);
           });
       }
@@ -83,21 +104,31 @@ class Category extends Component {
   /**
    * 显示添加分类对话框
    */
-  showAddCategory = () => {
+  showCategoryModal = () => {
     this.setState({
       isShowAddCategory: true
     });
   };
+  // 修改分类modal框
+  showUpateCategory = (category = {}) => {
+    return () => {
+      this.setState({
+        isShowAddCategory: true,
+        category: category
+      });
+    };
+  };
 
   render() {
     const { categories } = this.props;
-    const { isShowAddCategory } = this.state;
+    const { isShowAddCategory, category } = this.state;
+
     return (
       <Card
-        title='分类列表'
+        title="分类列表"
         extra={
-          <Button type='primary' onClick={this.showAddCategory}>
-            <Icon type='plus' />
+          <Button type="primary" onClick={this.showUpateCategory()}>
+            <Icon type="plus" />
             分类列表
           </Button>
         }
@@ -108,21 +139,22 @@ class Category extends Component {
           bordered
           pagination={{
             defaultPageSize: 3,
-            pageSizeOptions: ['3', '6', '9', '12'],
+            pageSizeOptions: ["3", "6", "9", "12"],
             showSizeChanger: true, // 是否显示改变 pageSize
             showQuickJumper: true // 是否显示快速跳转
           }}
-          rowKey='_id'
+          rowKey="_id"
         />
 
         <Modal
-          title='添加分类'
+          title={category.name ? "修改分类" : "添加分类"}
           visible={isShowAddCategory}
-          onOk={this.addCategory}
+          onOk={this.setCategory}
           onCancel={this.hiddenAddCategory}
           width={300}
         >
           <AddCategoryForm
+            categoryName={category.name}
             wrappedComponentRef={form => (this.addCategoryForm = form)}
           />
         </Modal>

@@ -91,9 +91,9 @@ export const updateCategoryAsync = (categoryId, categoryName) => {
     });
   };
 };
-const deleteCategory = id => ({
+const deleteCategory = category => ({
   type: DELETE_CATEGORY,
-  data: id
+  data: category
 });
 
 export const deleteCategoryAsync = (categoryId) => {

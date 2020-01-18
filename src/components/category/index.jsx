@@ -6,13 +6,16 @@ import AddCategoryForm from "./add-category-form";
 import {
   getCategoryListAsync,
   addCategoryAsync,
-  updateCategoryAsync
+  updateCategoryAsync,
+  deleteCategoryAsync
+  
 } from "$redux/actions";
 
 @connect(state => ({ categories: state.categories }), {
   getCategoryListAsync,
   addCategoryAsync,
-  updateCategoryAsync
+  updateCategoryAsync,
+  deleteCategoryAsync
 })
 class Category extends Component {
   state = {
@@ -39,12 +42,29 @@ class Category extends Component {
             <Button type="link" onClick={this.showUpateCategory(category)}>
               修改分类
             </Button>
-            <Button type="link">删除分类</Button>
+            <Button type="link" onClick= {this.deleteCategory(category)}>删除分类</Button>
           </div>
         );
       }
     }
   ];
+  deleteCategory=(category)=>{
+    return ()=>{
+      Modal.confirm({
+        title: `您确认要删除${category.name}分类吗?`,
+        onOk:()=>{
+          this.props
+          .deleteCategoryAsync(category._id)
+          .then(() => {
+            message.success('删除分类成功~');
+          })
+          .catch(err => {
+            message.error(err);
+          });
+        }
+      })
+    }
+  }
 
   /**
    * 添加分类

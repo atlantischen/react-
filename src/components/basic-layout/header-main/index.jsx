@@ -66,14 +66,16 @@ class HeaderMain extends Component {
   findTitle=(menus,pathname)=>{
     for (let index = 0; index < menus.length; index++) {
       const menu = menus[index];
+      // 二级菜单
       if(menu.children){
         for (let index = 0; index < menu.children.length; index++) {
           const cMenu = menu.children[index];
-          if(cMenu.path === pathname){
+          if(pathname.indexOf(cMenu.path) !==-1){
             return cMenu.title
           }
         } 
       }else{
+        // 一级菜单
         if(menu.path === pathname){
           return menu.title
         }

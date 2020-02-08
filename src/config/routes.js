@@ -1,6 +1,10 @@
 import Home from '../components/home';
 import Category from '../components/category';
-import Product from '../components/product'
+import Product from '../containers/product';
+
+import ProductForm from '../containers/product/product-form';
+import Role from '../containers/role'
+
 
 const routes =[
   {
@@ -17,6 +21,23 @@ const routes =[
     path:'/product',
     component:Product,
     exact:true
-  }
+  },
+  {
+    path:'/product/add',
+    component:ProductForm,
+    exact:true
+  },
+  {
+    // /product/update/5ddde47170cb1267ccc6aba8 因为id有n个
+    // 匹配多个地址
+    path: '/product/update/:id',
+    component: ProductForm,
+    exact: true
+  },
+  {
+    path: '/role',
+    component: Role,
+    exact: true
+  },
 ]
 export default routes

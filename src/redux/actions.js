@@ -4,7 +4,8 @@
  * 异步action
  */
 
-import { reqLogin, reqGetCategoryList, reqAddCategory ,reqUpdateCategory,reqDeleteCategory} from '../api';
+import { reqLogin, reqGetCategoryList, reqAddCategory ,reqDeleteCategory,reqUpdateCategory, reqGetRoleList,
+  reqAddRole} from '../api';
 import { setItem } from '../utils/storage';
 import {
   SAVE_USER,
@@ -13,7 +14,9 @@ import {
   GET_CATEGORY_LIST,
   ADD_CATEGORY,
   UPDATE_CATEGORY,
-  DELETE_CATEGORY
+  DELETE_CATEGORY,
+  GET_ROLE_LIST,
+  ADD_ROLE
 } from './action-types';
 
 export const changeLanguage = lang => ({ type: CHANGE_LANGUAGE, data: lang });
@@ -102,6 +105,28 @@ export const deleteCategoryAsync = (categoryId) => {
     return reqDeleteCategory(categoryId).then(response => {
       // 调用dispatch，触发更新
       dispatch(deleteCategory(response));
+    });
+  };
+};
+
+const getRoleList = roles =>({type: GET_ROLE_LIST, data: roles })
+export const getRoleListAsync = ()=>{
+  return dispatch=>{
+    return reqGetRoleList().then(res=>{
+      dispatch(getRoleList(res))
+    })
+  }
+}
+// 同步action
+const addRole = role => ({ type: ADD_ROLE, data: role });
+
+// 异步action
+export const addRoleAsync = (name) => {
+  return dispatch => {
+    // 执行异步操作
+    return reqAddRole(name).then(res => {
+      // 请求成功，更新redux状态
+      dispatch(addRole(res));
     });
   };
 };

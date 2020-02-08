@@ -34,7 +34,7 @@ export const reqAddCategory = (categoryName) => {
   });
 };
 // 编辑分类
-export const reqUpdateCategory = (categoryId,categoryName) => {
+export const reqUpdateCategory = (categoryId, categoryName) => {
   return axiosInstance({
     url: '/category/update',
     method: 'POST',
@@ -65,3 +65,75 @@ export const reqGetProductList = (pageNum, pageSize) => {
     }
   });
 }
+// 请求添加商品数据
+export const reqAddProduct = ({
+  name,
+  desc,
+  price,
+  detail,
+  categoryId
+}) => {
+  return axiosInstance({
+    url: '/product/add',
+    method: 'POST',
+    data: {
+      name,
+      desc,
+      price,
+      detail,
+      categoryId
+    }
+  });
+};
+// 请求搜索商品数据
+/*
+  searchType 搜索类型：productName  / productDesc
+  searchValue 搜索的值
+*/
+export const reqSearchProduct = ({
+  searchType,
+  searchValue,
+  pageNum,
+  pageSize
+}) => {
+  return axiosInstance({
+    url: '/product/search',
+    method: 'GET',
+    params: {
+      pageNum,
+      pageSize,
+      [searchType]: searchValue
+    }
+  });
+};
+
+// 请求更新商品状态数据
+export const reqUpdateProductStatus = (productId, status) => {
+  return axiosInstance({
+    url: '/product/update/status',
+    method: 'POST',
+    data: {
+      productId,
+      status
+    }
+  });
+};
+
+// 请求获取角色列表数据
+export const reqGetRoleList = () => {
+  return axiosInstance({
+    url: '/role/get',
+    method: 'GET',
+  });
+};
+
+// 请求添加角色数据
+export const reqAddRole = (name) => {
+  return axiosInstance({
+    url: '/role/add',
+    method: 'POST',
+    data: {
+      name
+    }
+  });
+};

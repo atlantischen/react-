@@ -9,7 +9,7 @@ import {
   updateCategoryAsync,
   deleteCategoryAsync
   
-} from "$redux/actions";
+} from "../product/product-form/node_modules/$redux/actions";
 
 @connect(state => ({ categories: state.categories }), {
   getCategoryListAsync,
@@ -117,6 +117,7 @@ class Category extends Component {
    * 隐藏添加分类对话框
    */
   hiddenAddCategory = () => {
+    this.addCategoryForm.props.form.resetFields()
     this.setState({
       isShowAddCategory: false
     });

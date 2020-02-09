@@ -14,7 +14,8 @@ export default class Product extends Component {
     isLoading: false,
     // 收集表单数据
     searchType: 'productName',
-    searchValue: ''
+    searchValue: '',
+    current:1
   };
 
   // 实例对象的属性
@@ -195,7 +196,9 @@ export default class Product extends Component {
           total: response.total,
           // 如果修改searchValue，但是没有点击搜索按钮，还是按照之前的搜索
           // 同时需要将搜索值改回来
-          searchValue: currentSearchValue
+          searchValue: currentSearchValue,
+          // 更新当前页数
+          current: pageNum
         });
         message.success(
           `${currentSearchValue ? '搜索' : '获取'}商品列表数据成功~`
@@ -264,7 +267,8 @@ export default class Product extends Component {
       total,
       isLoading,
       searchType,
-      searchValue
+      searchValue,
+      current
     } = this.state;
 
     return (
@@ -303,6 +307,7 @@ export default class Product extends Component {
             showSizeChanger: true,
             showQuickJumper: true,
             total,
+            current,
             // 页码发生变化触发的函数
             onChange: this.getProductList,
             // pageSize 变化的回调

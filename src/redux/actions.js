@@ -4,9 +4,20 @@
  * 异步action
  */
 
-import { reqLogin, reqGetCategoryList, reqAddCategory ,reqDeleteCategory,reqUpdateCategory, reqGetRoleList,
-  reqAddRole} from '../api';
-import { setItem } from '../utils/storage';
+import {
+  reqLogin,
+  reqGetCategoryList,
+  reqAddCategory,
+  reqDeleteCategory,
+  reqUpdateCategory,
+  reqGetRoleList,
+  reqAddRole,
+  reqUpdateRole
+
+} from '../api';
+import {
+  setItem
+} from '../utils/storage';
 import {
   SAVE_USER,
   REMOVE_USER,
@@ -16,14 +27,23 @@ import {
   UPDATE_CATEGORY,
   DELETE_CATEGORY,
   GET_ROLE_LIST,
-  ADD_ROLE
+  ADD_ROLE,
+  UPDATE_ROLE
 } from './action-types';
 
-export const changeLanguage = lang => ({ type: CHANGE_LANGUAGE, data: lang });
+export const changeLanguage = lang => ({
+  type: CHANGE_LANGUAGE,
+  data: lang
+});
 
-const saveUser = user => ({ type: SAVE_USER, data: user });
+const saveUser = user => ({
+  type: SAVE_USER,
+  data: user
+});
 
-export const removeUser = () => ({ type: REMOVE_USER });
+export const removeUser = () => ({
+  type: REMOVE_USER
+});
 
 export const saveUserAsync = (username, password) => {
   return dispatch => {
@@ -109,16 +129,22 @@ export const deleteCategoryAsync = (categoryId) => {
   };
 };
 
-const getRoleList = roles =>({type: GET_ROLE_LIST, data: roles })
-export const getRoleListAsync = ()=>{
-  return dispatch=>{
-    return reqGetRoleList().then(res=>{
+const getRoleList = roles => ({
+  type: GET_ROLE_LIST,
+  data: roles
+})
+export const getRoleListAsync = () => {
+  return dispatch => {
+    return reqGetRoleList().then(res => {
       dispatch(getRoleList(res))
     })
   }
 }
 // 同步action
-const addRole = role => ({ type: ADD_ROLE, data: role });
+const addRole = role => ({
+  type: ADD_ROLE,
+  data: role
+});
 
 // 异步action
 export const addRoleAsync = (name) => {
@@ -127,6 +153,25 @@ export const addRoleAsync = (name) => {
     return reqAddRole(name).then(res => {
       // 请求成功，更新redux状态
       dispatch(addRole(res));
+    });
+  };
+};
+// 同步action
+const updateRole = role => ({
+  type: UPDATE_ROLE,
+  data: role
+});
+
+// 异步action
+export const updateRoleAsync = (name) => {
+  return dispatch => {
+    // 执行异步操作
+    return reqUpdateRole(name).then(res => {
+      // 请求成功，更新redux状态
+      dispatch(updateRole(res));
+
+      // 将请求更新后的role返回出去
+      return res;
     });
   };
 };

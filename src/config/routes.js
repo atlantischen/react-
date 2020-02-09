@@ -1,5 +1,5 @@
 import Home from '../components/home';
-import Category from '../components/category';
+import Category from '../containers/category';
 import Product from '../containers/product';
 
 import ProductForm from '../containers/product/product-form';

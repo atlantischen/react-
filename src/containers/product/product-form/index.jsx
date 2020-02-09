@@ -51,15 +51,7 @@ class ProductForm extends Component {
       if (!err) {
         // console.log(values);
         const { name, desc, categoryId, price, detail } = values;
-        /*
-          <p style="text-align:center;">
-            <span style="line-height:2">
-              <span style="font-size:40px">
-                <strong><u>aaaaaaaaaaaaaaaaaaaa</u></strong>
-              </span>
-            </span>
-          👏</p>
-        */
+       
         // console.log(detail.toHTML()); // <p>ccc</p>
         // console.log(detail.toText()); // ccc  aaaaaaaaaaaa😍
 

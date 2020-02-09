@@ -9,7 +9,7 @@ import {
   updateCategoryAsync,
   deleteCategoryAsync
   
-} from "../product/product-form/node_modules/$redux/actions";
+} from "$redux/actions";
 
 @connect(state => ({ categories: state.categories }), {
   getCategoryListAsync,
